@@ -1,0 +1,11 @@
+USE careerbridge;
+INSERT INTO users(name,email) VALUES('Demo Student','demo@careerbridge.local');
+INSERT INTO skills(name,category) VALUES ('Java','Programming'),('SQL','Database'),('OOP','Programming'),('Spring Boot','Backend'),('REST API','Backend'),('Hibernate','Backend'),('Docker','DevOps'),('DSA','Computer Science');
+INSERT INTO roles(name,description) VALUES('Java Backend Developer','Backend developer building enterprise Java services');
+INSERT INTO user_skills(user_id,skill_id,proficiency) SELECT 1,id,4 FROM skills WHERE name IN ('Java','SQL','OOP','DSA');
+INSERT INTO role_skills(role_id,skill_id,required_level,importance) SELECT 1,id,4,5 FROM skills WHERE name='Java';
+INSERT INTO role_skills(role_id,skill_id,required_level,importance) SELECT 1,id,4,4 FROM skills WHERE name IN ('Spring Boot','REST API','Hibernate');
+INSERT INTO role_skills(role_id,skill_id,required_level,importance) SELECT 1,id,3,3 FROM skills WHERE name IN ('SQL','OOP','Docker');
+INSERT INTO resources(skill_id,title,type,url,level) SELECT id,'Spring Boot Official Guides','DOCUMENTATION','https://spring.io/guides','BEGINNER' FROM skills WHERE name='Spring Boot';
+INSERT INTO resources(skill_id,title,type,url,level) SELECT id,'Docker Get Started','DOCUMENTATION','https://docs.docker.com/get-started/','BEGINNER' FROM skills WHERE name='Docker';
+INSERT INTO interview_questions(skill_id,question,difficulty) SELECT id,'What is dependency injection in Spring Boot and why is it useful?','INTERMEDIATE' FROM skills WHERE name='Spring Boot';
