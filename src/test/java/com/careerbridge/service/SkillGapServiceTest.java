@@ -1,0 +1,3 @@
+package com.careerbridge.service;
+import com.careerbridge.model.*;import org.junit.jupiter.api.Test;import java.util.*;import static org.junit.jupiter.api.Assertions.*;
+class SkillGapServiceTest { @Test void missingSkillsAreRanked(){User u=new User("A","a@example.com");u.getSkills().add(new Skill("Java","Programming"));Role r=new Role("Java Backend Developer","backend");r.getSkills().add(new Skill("Java","Programming"));r.getSkills().add(new Skill("Spring Boot","Backend"));var result=new SkillGapService().analyze(u,r);assertEquals(2,result.size());assertEquals("Spring Boot",result.get(0).skill());assertEquals(0,result.get(1).gap());} @Test void emptyRoleMeansFullMatch(){assertEquals(100,new SkillGapService().matchPercent(List.of()));} }
