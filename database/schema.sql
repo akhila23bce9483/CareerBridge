@@ -1,0 +1,13 @@
+CREATE DATABASE IF NOT EXISTS careerbridge;
+USE careerbridge;
+CREATE TABLE users (id BIGINT PRIMARY KEY AUTO_INCREMENT, name VARCHAR(100) NOT NULL, email VARCHAR(150) NOT NULL UNIQUE, created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP);
+CREATE TABLE skills (id BIGINT PRIMARY KEY AUTO_INCREMENT, name VARCHAR(100) NOT NULL UNIQUE, category VARCHAR(80));
+CREATE TABLE user_skills (user_id BIGINT NOT NULL, skill_id BIGINT NOT NULL, proficiency INT NOT NULL DEFAULT 1 CHECK(proficiency BETWEEN 1 AND 5), PRIMARY KEY(user_id,skill_id), FOREIGN KEY(user_id) REFERENCES users(id) ON DELETE CASCADE, FOREIGN KEY(skill_id) REFERENCES skills(id) ON DELETE CASCADE);
+CREATE TABLE roles (id BIGINT PRIMARY KEY AUTO_INCREMENT, name VARCHAR(120) NOT NULL UNIQUE, description VARCHAR(500));
+CREATE TABLE role_skills (role_id BIGINT NOT NULL, skill_id BIGINT NOT NULL, required_level INT NOT NULL DEFAULT 3 CHECK(required_level BETWEEN 1 AND 5), importance INT NOT NULL DEFAULT 3 CHECK(importance BETWEEN 1 AND 5), PRIMARY KEY(role_id,skill_id), FOREIGN KEY(role_id) REFERENCES roles(id) ON DELETE CASCADE, FOREIGN KEY(skill_id) REFERENCES skills(id) ON DELETE CASCADE);
+CREATE TABLE resources (id BIGINT PRIMARY KEY AUTO_INCREMENT, skill_id BIGINT NOT NULL, title VARCHAR(200) NOT NULL, type VARCHAR(50) NOT NULL, url VARCHAR(500), level VARCHAR(30), FOREIGN KEY(skill_id) REFERENCES skills(id));
+CREATE TABLE interview_questions (id BIGINT PRIMARY KEY AUTO_INCREMENT, skill_id BIGINT, question TEXT NOT NULL, difficulty VARCHAR(30) NOT NULL, FOREIGN KEY(skill_id) REFERENCES skills(id));
+CREATE TABLE interview_attempts (id BIGINT PRIMARY KEY AUTO_INCREMENT, user_id BIGINT NOT NULL, question_id BIGINT NOT NULL, score DECIMAL(5,2) NOT NULL, feedback VARCHAR(1000), attempted_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, FOREIGN KEY(user_id) REFERENCES users(id), FOREIGN KEY(question_id) REFERENCES interview_questions(id));
+CREATE INDEX idx_user_skills_user ON user_skills(user_id);
+CREATE INDEX idx_role_skills_role ON role_skills(role_id);
+CREATE INDEX idx_resources_skill ON resources(skill_id);
