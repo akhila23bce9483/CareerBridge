@@ -1,0 +1,3 @@
+package com.careerbridge.model;
+import jakarta.persistence.*;import java.util.*;
+@Entity @Table(name="roles") public class Role { @Id @GeneratedValue(strategy=GenerationType.IDENTITY) private Long id; @Column(nullable=false,unique=true) private String name; private String description; @ManyToMany @JoinTable(name="role_skills",joinColumns=@JoinColumn(name="role_id"),inverseJoinColumns=@JoinColumn(name="skill_id")) private Set<Skill> skills=new HashSet<>(); public Role(){} public Role(String name,String description){this.name=name;this.description=description;} public Long getId(){return id;} public String getName(){return name;} public String getDescription(){return description;} public Set<Skill> getSkills(){return skills;} }
